@@ -1,2 +1,1 @@
-# goal-share
-goal-share backend latest
+# shared-goal
