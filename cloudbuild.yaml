@@ -1,7 +1,7 @@
 steps:
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/shared-goal:$COMMIT_SHA', '.']
+    args: ['--network=cloudbuild', 'build', '-t', 'gcr.io/$PROJECT_ID/shared-goal:$COMMIT_SHA', '.']
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/shared-goal:$COMMIT_SHA']
