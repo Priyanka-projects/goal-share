@@ -2,8 +2,6 @@ package com.shared_goal_service.shared_goal.Entity;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
-
 @Entity
 public class Account {
     @Id
@@ -15,5 +13,5 @@ public class Account {
     private double balance;
 
     @OneToOne(mappedBy = "account")
-    private existingCustomer customer;
+    private ExistingCustomer customer;
 }

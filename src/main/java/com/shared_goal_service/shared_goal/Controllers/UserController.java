@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -80,7 +81,6 @@ public class UserController {
          return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(e.fillInStackTrace());
      }
  }
-
 
 
 

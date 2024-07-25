@@ -45,6 +45,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/delete/**").hasAuthority("ADMIN")
                         .requestMatchers("/viewall/**").hasAuthority("ADMIN")
                         .requestMatchers("/user/addUser").permitAll()
+                        .requestMatchers("/sendMail").permitAll()
+                        .requestMatchers("/customer/**").permitAll()
                         .anyRequest().authenticated()
                 ).httpBasic(Customizer.withDefaults());;
 
