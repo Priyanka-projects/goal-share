@@ -2,6 +2,7 @@ package com.shared_goal_service.shared_goal.Controllers;
 
 import com.shared_goal_service.shared_goal.Dao.RoleRepository;
 import com.shared_goal_service.shared_goal.Dto.UserDto;
+import com.shared_goal_service.shared_goal.Dto.UserList;
 import com.shared_goal_service.shared_goal.Entity.GoalEntity;
 import com.shared_goal_service.shared_goal.Entity.Role;
 import com.shared_goal_service.shared_goal.Entity.UserEntity;
@@ -84,7 +85,33 @@ public class UserController {
 
 
 
+    @PostMapping(value = "/new/member/list/add")
+    public ResponseEntity addListMemberExistingGoal(@RequestBody UserList userList)
+    {
+        List<UserDto> dto = new ArrayList<>();
+        //  Optional<GoalEntity> goal=goalService.findById(user.getGoal().getGoal_id());
+        try {
+            userList.getUsers().stream().forEach(user -> {
+                String password = bCryptPasswordEncoder.encode(user.getPassword());
+                user.setPassword(password);
+                Role role = roleRepository.findByName("USER");
+                user.getRoles().add(role);
 
+                Optional<GoalEntity> goal=goalService.findById(user.getGoal().getGoal_id());
+                user.setGoal(goal.get());
+
+                UserEntity ue= userService.saveUserData(user);
+                UserDto ud;
+                ud= UserDto.convertUserEntityToDto(ue);
+                dto.add(ud);
+            });
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(e.fillInStackTrace());
+        }
+    }
 
     @GetMapping(value = "viewall/AllUserByGoalid")
     public ResponseEntity getAllUserByGoalid(@RequestParam Long goalid)
